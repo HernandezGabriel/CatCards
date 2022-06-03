@@ -3,17 +3,23 @@ package com.techelevator.controller;
 import com.techelevator.dao.CatCardDao;
 import com.techelevator.dao.JdbcCatCardDao;
 import com.techelevator.model.CatCard;
+import com.techelevator.model.CatCardNotFoundException;
 import com.techelevator.services.CatFactService;
 import com.techelevator.services.CatPicService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequestMapping(path = "/api/cards")
 public class CatController {
-
+    @Autowired
     private CatCardDao catCardDao;
+    @Autowired
     private CatFactService catFactService;
+    @Autowired
     private CatPicService catPicService;
 
     public CatController(CatCardDao catCardDao, CatFactService catFactService, CatPicService catPicService) {
@@ -22,33 +28,34 @@ public class CatController {
         this.catPicService = catPicService;
     }
 
-    @RequestMapping(path = "/api/cards", method = RequestMethod.GET)
+    @GetMapping
     public List<CatCard> getAllCards(){
         return catCardDao.list();
     }
 
-    @RequestMapping(path = "/api/cards/{id}", method = RequestMethod.GET)
-    public CatCard getCatCard(@PathVariable int id){
+    @GetMapping("/{id}")
+    public CatCard getCatCard(@PathVariable int id) throws CatCardNotFoundException {
         return catCardDao.get(id);
 
     }
 
-    @RequestMapping(path = "/api/cards/random", method = RequestMethod.GET)
+    @GetMapping("/random")
     public CatCard getRandomCatCard(){
         return new CatCard(catFactService.getFact(), catPicService.getPic());
     }
 
-    @PostMapping(path = "/api/cards")
+    @PostMapping("/cards")
     public boolean postCatCard(CatCard catCard){
         return catCardDao.save(catCard);
     }
 
-    @PostMapping(path = "/api/cards/{id}")
-    public boolean updateCatCard(@PathVariable int id, @RequestBody CatCard catCard){
+
+    @PutMapping("/{id}")
+    public boolean updateCatCard(@Valid @PathVariable int id , CatCard catCard) throws CatCardNotFoundException{
         return catCardDao.update(id, catCard);
     }
 
-    @DeleteMapping(path = "/api/cards/{id}")
+    @DeleteMapping("/{id}")
     public boolean deleteCatCard(@PathVariable int id, @RequestBody CatCard catCard){
         return catCardDao.delete(id);
 
