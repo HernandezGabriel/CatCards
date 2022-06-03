@@ -39,5 +39,18 @@ public class CatCard {
 	public void setCaption(String caption) {
 		this.caption = caption;
 	}
-	
+
+	public CatCard(CatFact catFact, CatPic catPic){
+		this.catFact = catFact.getText();
+		this.imgUrl = catPic.getFile();
+
+	}
+
+	public CatCard(){
+
+	}
+
+
+
+
 }
