@@ -1,3 +1,16 @@
+### Getting started
+
+1. Create a new Postgres database called `catcards`.
+2. Run the script `database/catcards.sql` in pgAdmin to set up your database.
+
+    **Note**: You'll see a message that says that the "catcards" table doesn't exist the first time you run the `create` script. You can ignore the message.
+
+3. Launch this project by running it as a Spring Boot application and navigate to `http://localhost:8080`.
+
+
+
+
+
 # Week 7 Pair Exercises: Cat Cards
 
 ## Context
